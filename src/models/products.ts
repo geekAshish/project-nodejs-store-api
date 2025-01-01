@@ -25,10 +25,10 @@ const productSchema = new Schema({
     type: String,
     // enum: ["ikea", "tiddy", "caressa", "marcos"],
     enum: {
-      values: ["ikea", "tiddy", "caressa", "marcos"],
+      values: ["ikea", "liddy", "caressa", "marcos"],
       message: "{VALUE} is not supported",
     },
   },
 });
 
-export const productModel = model("Product", productSchema);
+export const ProductModel = model("Product", productSchema);
