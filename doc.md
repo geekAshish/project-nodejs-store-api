@@ -11,3 +11,5 @@ https://hn.algolia.com/api
 # Select fields : select
 
 # pagination : limit, skip
+
+# numeric filters for range type values
