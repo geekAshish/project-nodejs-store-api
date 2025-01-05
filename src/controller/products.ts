@@ -13,7 +13,7 @@ export const getAllProductsStatic = asyncWrapper(
 );
 export const getAllProducts = asyncWrapper(
   async (req: Request, res: Response) => {
-    const { featured, company, name, sort, fields } = req.query;
+    const { featured, company, name, sort, fields, numericFilters } = req.query;
     const queryObject: any = {};
 
     if (featured) {
@@ -24,6 +24,28 @@ export const getAllProducts = asyncWrapper(
     }
     if (name) {
       queryObject.name = { $regex: name, $options: "i" }; // mongodb query operators
+    }
+    // numeric filters for range type values
+    if (numericFilters) {
+      const operatorMap = {
+        ">": "$gt",
+        ">=": "$gte",
+        "=": "$eq",
+        "<": "$lt",
+        "<=": "$lte",
+      };
+      const regEx = /\b(<|>|=|<=|>=)\b/g;
+      let filters: any = (numericFilters as any).replace(
+        regEx,
+        (match: ">" | ">=" | "=" | "<" | "<=") => `-${operatorMap?.[match]}-`
+      );
+      const options = ["rating", "price"];
+      filters = filters.split(",").forEach((item: string) => {
+        const [field, operator, value] = item?.split("-");
+        if (options.includes(field)) {
+          queryObject[field] = { [operator]: Number(value) };
+        }
+      });
     }
 
     let result = ProductModel.find(queryObject); // we'll remove await here because we need ProductModel promise for sorting letter on
@@ -41,6 +63,13 @@ export const getAllProducts = asyncWrapper(
       const fieldsList = (fields as any)?.split(",")?.join(" ");
       result = result.select(fieldsList);
     }
+
+    // pagination
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    result = result.skip(skip).limit(limit);
 
     const products = await result; // at the end we'll await to get data from promise
 
