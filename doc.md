@@ -3,3 +3,11 @@
 # structure reference
 
 https://hn.algolia.com/api
+
+# query operators
+
+# Sorting : sort
+
+# Select fields : select
+
+# pagination : limit, skip
