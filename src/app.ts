@@ -4,6 +4,7 @@ import { connectDB } from "./db/connect";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 import { notFound } from "./middleware/not-found";
 import productsRouter from "./routes/products";
+import authRouter from "./routes/auth";
 
 config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // route
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use(notFound as any);
 app.use(errorHandlerMiddleware as any);
