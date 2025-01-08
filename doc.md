@@ -13,3 +13,5 @@ https://hn.algolia.com/api
 # pagination : limit, skip
 
 # numeric filters for range type values
+
+# More about JWT : https://jwt.io/introduction
