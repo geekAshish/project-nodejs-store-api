@@ -22,7 +22,6 @@ export const authMiddleware = async (
 
     const { id, username } = decode;
     (req as any).user = { id, username };
-    console.log("this is it", { username, id });
 
     next();
   } catch (error) {

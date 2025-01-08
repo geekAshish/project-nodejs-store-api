@@ -35,7 +35,7 @@ export const dashboard = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const luckyNumber = Math.floor(Math.random() * 100 + 1);
 
-    const { username } = (req as any)?.user?.name;
+    const { username } = (req as any)?.user;
 
     res.status(200).json({
       msg: `Hello, ${username}`,
