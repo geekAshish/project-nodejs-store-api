@@ -15,3 +15,5 @@ https://hn.algolia.com/api
 # numeric filters for range type values
 
 # More about JWT : https://jwt.io/introduction
+
+# status code : npm i http-status-codes

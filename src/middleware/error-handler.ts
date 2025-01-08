@@ -1,5 +1,7 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { CustomAPIError } from "../error/custom-error";
+import { errors } from "../error";
+import { StatusCodes } from "http-status-codes";
+// import { CustomAPIError } from "../error/custom-error";
 
 export const errorHandlerMiddleware = (
   err: ErrorRequestHandler,
@@ -7,13 +9,13 @@ export const errorHandlerMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  if (err instanceof CustomAPIError) {
+  if (err instanceof errors.CustomAPIError) {
     return res
       .status((err as any)?.statusCode)
       .json({ msg: (err as any)?.message });
   }
 
   return res
-    .status(500)
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
     .json({ msg: "Something went wrong, Please try again" });
 };

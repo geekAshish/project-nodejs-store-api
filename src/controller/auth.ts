@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { asyncWrapper } from "../middleware/async";
-import { CustomAPIError } from "../error/custom-error";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { errors } from "../error";
 
 export const login = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +11,7 @@ export const login = asyncWrapper(
     // b. Joi
     // c. check in controller
     if (!username || !password) {
-      throw new CustomAPIError("please provide email and password", 400);
+      throw new errors.BadRequest("please provide email and password");
     }
 
     // just for the demo, normally provided by the db
